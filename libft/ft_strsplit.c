@@ -83,6 +83,6 @@ char			**ft_strsplit(char const *s, char c)
 		if (count == 1)
 			break ;
 	}
-	array[x] = 0;
+	array[x] = NULL;
 	return ((char **)array);
 }
