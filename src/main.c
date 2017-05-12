@@ -1,5 +1,17 @@
 #include "../inc/minishell.h"
 
+void	print_env(char **env)
+{
+	int i;
+
+	i = 0;
+	while(env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+}
+
 int		main(int ac, char **av, char **env)
 {
 	char *line;
@@ -12,8 +24,6 @@ int		main(int ac, char **av, char **env)
 	signal(SIGINT, SIG_IGN);
 
 	av = 0;
-	env = 0;
-
 	/*
 	printf("%s\n", *av);
 	while (*env++)
@@ -28,8 +38,10 @@ int		main(int ac, char **av, char **env)
 		if (get_next_line(0, &line) > 0)
 		{
 			parse_input(line);
-			if (line[0] == '3')
+			if (!ft_strcmp(line, "exit"))
 				break ;
+			if (!ft_strcmp(line , "env"))
+				print_env(env);
 		}
 		
 	}
