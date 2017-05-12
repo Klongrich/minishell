@@ -13,7 +13,12 @@
 # include <sys/stat.h>
 # include <dirent.h>
 
-void	run_fork(char *str, char *command);
-void	parse_input(char *input);
+void	run_builtin(char *str, char *command);
+void	run_cd(char *input);
+void	run_unsetenv(char *input);
+void	run_setenv(char *input);
+void	print_env();
+void	init_env(char **input);
+int		parse_input(char *input);
 
 #endif

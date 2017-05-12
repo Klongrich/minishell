@@ -13,27 +13,50 @@ int		is_builtin(char *input)
 	}
 	str[i] = '\0';
 	if (!ft_strcmp(str, "echo"))
-		run_fork(input, "echo");
+		run_builtin(input, "echo");
 	else if (!ft_strcmp(str, "pwd"))
-		run_fork(input, "pwd");
+		run_builtin(input, "pwd");
 	else if (!ft_strcmp(str, "ls"))
-		run_fork(input, "ls");
+		run_builtin(input, "ls");
+	else
+		return(0);
 	return(1);
 }
 
-void	run_builtin(char *str)
+
+int		is_other(char *input)
 {
-	str = NULL;
-	printf("");
+	char str[ft_strlen(input)];
+	int i;
+
+	i = 0;
+	while (input[i] != ' ' && input[i] != ';' && input[i])
+	{
+		str[i] = input[i];
+		i++;
+	}
+	str[i] = '\0';
+	if (!ft_strcmp(str, "cd"))
+		run_cd(input);
+	else if (!ft_strcmp(str, "setenv"))
+		run_setenv(input);
+	else if (!ft_strcmp(str, "unsetenv"))
+		run_unsetenv(input);
+	else
+		return(0);
+	return(1);
+
 }
 
-void	parse_input(char *input)
+
+int		parse_input(char *input)
 {
 	if (is_builtin(input))
-		run_builtin(input);
+		return(1);
+	else if (is_other(input))
+		return(1);
 	else
-	{
-		printf("wtf");
-	}
+		printf("command not found: %s\n", input);
+	return (0);
 
 }
