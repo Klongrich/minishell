@@ -1,5 +1,5 @@
 NAME = minishell
-OBJ = main.o get_next_line.o fork.o parse_input.o 
+OBJ = main.o get_next_line.o run_builtins.o parse_input.o manage_env.o run_cd.o
 INC = inc/minishell.h
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
