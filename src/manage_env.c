@@ -17,7 +17,7 @@ void	init_env(char **input)
 	env = input;
 }
 
-int		update_info(char *str, int delete_or_update)
+int		update_info(char *str, int delete_or_update, int spot, char *user_input)
 {
 	int i;
 	int j;
@@ -26,9 +26,11 @@ int		update_info(char *str, int delete_or_update)
 
 	i = 0;
 	j = 0;
-	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 2);
+	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 1);
 	if (delete_or_update)
-		printf("Updating");
+	{
+		printf("spot: %s\ninput: %s\n", env[spot], user_input);
+	}
 	else
 	{
 		while (env[i])
@@ -59,7 +61,7 @@ int		check_name(char *user_input, int delete_or_update)
 	{
 		current_names = ft_strsplit(env[i], '=');
 		if (!ft_strcmp(current_names[0], varible_name[1]))
-			return (update_info(current_names[0], delete_or_update));
+			return (update_info(current_names[0], delete_or_update, i, user_input));
 		i++;
 	}
 	return (1);
