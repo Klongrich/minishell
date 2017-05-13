@@ -2,7 +2,7 @@
 
 char	**env;
 
-int		ft_len(char **str)
+int		ft_env_len(char **str)
 {
 	int i;
 
@@ -17,65 +17,83 @@ void	init_env(char **input)
 	env = input;
 }
 
-/*
-int		check_name(char *user_input)
+int		update_info(char *str, int delete_or_update)
 {
-	char **current_names;
 	int i;
+	int j;
+	char	**new_env;
+	char	**env_name;
 
 	i = 0;
-	current_names = ft_strsplit(env, '=');
-	while (i < 10)
+	j = 0;
+	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 2);
+	if (delete_or_update)
+		printf("Updating");
+	else
 	{
-		if (i % 2 == 0)
-			printf("%s\n", current_names[i]);
-		i++;
+		while (env[i])
+		{
+			env_name = ft_strsplit(env[i], '=');
+			if (ft_strcmp(str, env_name[0]))
+			{
+				new_env[j] = env[j];
+				j++;
+			}
+			i++;
+		}
+		new_env[i] = NULL;
+		env = new_env;
 	}
 	return (0);
 }
-*/
+
+int		check_name(char *user_input, int delete_or_update)
+{
+	char **current_names;
+	char **varible_name;
+	int i;
+
+	i = 0;
+	varible_name = ft_strsplit(user_input, ' ');
+	while (i < ft_env_len(env))
+	{
+		current_names = ft_strsplit(env[i], '=');
+		if (!ft_strcmp(current_names[0], varible_name[1]))
+			return (update_info(current_names[0], delete_or_update));
+		i++;
+	}
+	return (1);
+}
 
 void	run_setenv(char *input)
 {
 	char	**new_env;
-	
+	char	**tmp;
+	char	*tmptwo;
 	int i;
 
 	i = 0;
-	new_env = (char **)malloc(sizeof(new_env) * ft_len(env) + 1);
-	//if (check_name(input))
-	//{
+	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 2);
+	if (check_name(input, 1))
+	{
 		while (env[i])
 		{
 			new_env[i] = env[i];
 			i++;
 		}
-		new_env[i] = input;
-	//}
-	env = new_env;
-	printf("setenv: %s\n", input);
+		tmp = ft_strsplit(input, ' ');
+		tmptwo = ft_strjoin(tmp[1], "=");
+		new_env[i++] = ft_strjoin(tmptwo, tmp[2]);
+		new_env[i] = NULL;
+		env = new_env;
+		free (tmp);
+		free (tmptwo);
+	}
 }
 
 void	run_unsetenv(char *input)
 {
-	char	**new_env;
-	int i;
-
-	i = 0;
-	new_env = (char **)malloc(sizeof(new_env) * ft_len(env) + 1);
-	//if (check_name(input))
-	//{
-		while (env[i])
-		{
-			if (ft_strcmp(input, env[i]))
-				new_env[i] = env[i];
-			i++;
-		}
-		new_env[i] = input;
-	//}
-	env = new_env;
-	printf("setenv: %s\n", input);
-	printf("unsetenv: %s\n", input);
+	check_name(input, 0);
 }
 
 void	print_env()
