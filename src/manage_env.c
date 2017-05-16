@@ -23,9 +23,12 @@ int		update_info(char *str, int delete_or_update, int spot, char *user_input)
 	int j;
 	char	**new_env;
 	char	**env_name;
+	char	**tmp;
+	char	**tmptwo;
 
 	i = 0;
 	j = 0;
+	tmp = env;
 	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 1);
 	if (delete_or_update)
 	{
@@ -35,16 +38,20 @@ int		update_info(char *str, int delete_or_update, int spot, char *user_input)
 	{
 		while (env[i])
 		{
+			tmptwo = env_name;
 			env_name = ft_strsplit(env[i], '=');
 			if (ft_strcmp(str, env_name[0]))
 			{
 				new_env[j] = env[j];
+				printf("WORKING");
 				j++;
 			}
+			printf("STR: %s\n ENV_NAME: %s\n", str, env_name[0]);
 			i++;
 		}
-		new_env[i] = NULL;
+		new_env[j] = NULL;
 		env = new_env;
+		free (tmp);
 	}
 	return (0);
 }
@@ -57,6 +64,8 @@ int		check_name(char *user_input, int delete_or_update)
 
 	i = 0;
 	varible_name = ft_strsplit(user_input, ' ');
+	if (!varible_name[1])
+		return (0);
 	while (i < ft_env_len(env))
 	{
 		current_names = ft_strsplit(env[i], '=');

@@ -13,11 +13,11 @@ int		is_builtin(char *input)
 	}
 	str[i] = '\0';
 	if (!ft_strcmp(str, "echo"))
-		run_builtin(input, "echo");
+		run_echo(input);
 	else if (!ft_strcmp(str, "pwd"))
-		run_builtin(input, "pwd");
+		run_pwd();
 	else if (!ft_strcmp(str, "ls"))
-		run_builtin(input, "ls");
+		run_ls(input);
 	else
 		return(0);
 	return(1);

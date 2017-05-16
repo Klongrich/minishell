@@ -13,12 +13,15 @@
 # include <sys/stat.h>
 # include <dirent.h>
 
-void	run_builtin(char *str, char *command);
 void	run_cd(char *input);
 void	run_unsetenv(char *input);
 void	run_setenv(char *input);
 void	print_env();
 void	init_env(char **input);
+void	run_echo(char *input);
+void	run_ls(char *input);
+void	run_pwd();
 int		parse_input(char *input);
+int		ft_env_len(char **str);
 
 #endif

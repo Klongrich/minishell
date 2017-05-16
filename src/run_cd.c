@@ -1,17 +1,15 @@
 #include "../inc/minishell.h"
 
-void	update_pwd(char *path)
+int		update_pwd(char *path)
 {
 	path = NULL;
+	return (1);
 }
 
 int		check_path(char *path)
 {
 	if (opendir(path))
-	{
-		update_pwd(path);
-		return (1);
-	}
+		return (update_pwd(path));
 	else
 		return (0);
 }
