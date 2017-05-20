@@ -17,42 +17,57 @@ void	init_env(char **input)
 	env = input;
 }
 
-int		update_info(char *str, int delete_or_update, int spot, char *user_input)
+void	update_env(char *user_input, int spot)
+{
+	char	**parsed_data;
+	char	*tmp;
+	char	*tmptwo;
+	char	*dup;
+
+	tmptwo = env[spot];
+	parsed_data = ft_strsplit(user_input, ' ');
+	dup = ft_strjoin(parsed_data[1], "=");
+	tmp = ft_strjoin(dup, parsed_data[2]);
+	env[spot] = tmp;
+	free (parsed_data);
+	free (dup);
+}
+
+void	delete_env(char *str)
 {
 	int i;
 	int j;
 	char	**new_env;
 	char	**env_name;
 	char	**tmp;
-	char	**tmptwo;
 
 	i = 0;
 	j = 0;
 	tmp = env;
 	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 1);
-	if (delete_or_update)
+	while (env[i])
 	{
-		printf("spot: %s\ninput: %s\n", env[spot], user_input);
-	}
-	else
-	{
-		while (env[i])
+		env_name = ft_strsplit(env[i], '=');
+		if (ft_strcmp(str, env_name[0]))
 		{
-			tmptwo = env_name;
-			env_name = ft_strsplit(env[i], '=');
-			if (ft_strcmp(str, env_name[0]))
-			{
-				new_env[j] = env[j];
-				printf("WORKING");
-				j++;
-			}
-			printf("STR: %s\n ENV_NAME: %s\n", str, env_name[0]);
-			i++;
+			new_env[j] = env[i];
+			j++;
 		}
-		new_env[j] = NULL;
-		env = new_env;
-		free (tmp);
+		i++;
 	}
+	new_env[j] = NULL;
+	env = new_env;
+	free (tmp);
+	free (env_name);
+}
+
+
+int		update_info(char *str, int delete_or_update, int spot, char *user_input)
+{
+	if (delete_or_update)
+		update_env(user_input, spot);
+	else
+		delete_env(str);	
 	return (0);
 }
 

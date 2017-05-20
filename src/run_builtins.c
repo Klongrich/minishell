@@ -9,9 +9,7 @@ void run_builtin(char **user_input, char *bin_path)
 	if (pid > 0)
 		wait(0);
 	else if (!pid)
-	{
 		execv(bin_path, user_input);
-	}
 	free(user_input);
 }
 
@@ -70,7 +68,6 @@ void	run_echo(char *input)
 	}
 	user_input[i] = NULL;
 	run_builtin(user_input, "/bin/echo");
-
 }
 
 void	run_pwd()

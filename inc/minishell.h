@@ -23,5 +23,6 @@ void	run_ls(char *input);
 void	run_pwd();
 int		parse_input(char *input);
 int		ft_env_len(char **str);
-
+void	run_setenv(char *input);
+int		check_name(char *user_input, int delete_or_update);
 #endif

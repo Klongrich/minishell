@@ -57,5 +57,4 @@ int		parse_input(char *input)
 	else
 		printf("command not found: %s\n", input);
 	return (0);
-
 }
