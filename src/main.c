@@ -20,7 +20,6 @@ int		main(int ac, char **av, char **env)
 			if (!ft_strcmp(line , "env"))
 				print_env(env);
 		}
-		
 	}
 	return (0);
 }

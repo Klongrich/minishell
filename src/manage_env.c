@@ -1,7 +1,5 @@
 #include "../inc/minishell.h"
 
-char	**env;
-
 int		ft_env_len(char **str)
 {
 	int i;

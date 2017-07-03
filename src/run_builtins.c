@@ -36,8 +36,26 @@ char	*trim_string(char *str)
 	return (answer);
 }
 
+void	check_env(char *str)
+{
+	int	i;
+	char	**names;
 
-void	run_echo(char *input)
+	i = 0;
+	str++;
+	while (env[i])
+	{
+		names = ft_strsplit(env[i], '=');
+		if (!ft_strcmp(str, names[0]))
+			ft_putstr(names[1]);
+		i++;
+		free (names);
+	}
+	ft_putchar('\n');
+}
+
+
+int		run_echo(char *input)
 {
 	char **user_input;
 	//char *tmp;
@@ -60,7 +78,8 @@ void	run_echo(char *input)
 			}
 			else if (user_input[i][j] == '$' && user_input[i][j + 1])
 			{
-
+				check_env(user_input[i]);
+				return (0);
 			}
 			j++;
 		}
@@ -68,6 +87,7 @@ void	run_echo(char *input)
 	}
 	user_input[i] = NULL;
 	run_builtin(user_input, "/bin/echo");
+	return (0);
 }
 
 void	run_pwd()

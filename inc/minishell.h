@@ -12,13 +12,16 @@
 # include <sys/dir.h>
 # include <sys/stat.h>
 # include <dirent.h>
+# include <string.h>
+
+char	**env;
 
 void	run_cd(char *input);
 void	run_unsetenv(char *input);
 void	run_setenv(char *input);
 void	print_env();
 void	init_env(char **input);
-void	run_echo(char *input);
+int		run_echo(char *input);
 void	run_ls(char *input);
 void	run_pwd();
 int		parse_input(char *input);
