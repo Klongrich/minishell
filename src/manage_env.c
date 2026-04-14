@@ -19,10 +19,10 @@ void	update_env(char *user_input, int spot)
 {
 	char	**parsed_data;
 	char	*tmp;
-	char	*tmptwo;
+//	char	*tmptwo;
 	char	*dup;
 
-	tmptwo = env[spot];
+//	tmptwo = env[spot];
 	parsed_data = ft_strsplit(user_input, ' ');
 	dup = ft_strjoin(parsed_data[1], "=");
 	tmp = ft_strjoin(dup, parsed_data[2]);

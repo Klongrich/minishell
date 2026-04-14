@@ -8,7 +8,7 @@ int		main(int ac, char **av, char **env)
 		return (0);
 	line = NULL;
 	init_env(env);
-	av = 0;
+	if (av) {};
 	while (1)
 	{
 		write(1, "$> ", 3);
@@ -18,7 +18,7 @@ int		main(int ac, char **av, char **env)
 			if (!ft_strcmp(line, "exit"))
 				break ;
 			if (!ft_strcmp(line , "env"))
-				print_env(env);
+				print_env();
 		}
 	}
 	return (0);
