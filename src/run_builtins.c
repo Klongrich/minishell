@@ -51,8 +51,14 @@ int		run_echo(char *input)
 		{
 			if (user_input[i][j] == '"')
 			{
-				user_input[i] = trim_string(user_input[i], '"');
-				break;
+				if(user_input[i][j + 1] == '$' && user_input[i][j + 2]) {
+					user_input[i] = trim_string(user_input[i], '"');
+					check_env(user_input[i]);
+					return (0);
+				} else {
+					user_input[i] = trim_string(user_input[i], '"');
+					break;
+				}
 			} else if (user_input[i][j] == '\'') {
 				user_input[i] = trim_string(user_input[i], '\'');
 				break;
