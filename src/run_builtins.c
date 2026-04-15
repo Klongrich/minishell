@@ -72,7 +72,14 @@ int		run_echo(char *input)
 		i++;
 	}
 	user_input[i] = NULL;
-	run_builtin(user_input, "/bin/echo");
+
+	int x;
+
+	x = 1;
+	while (user_input[x]) {
+		printf("%s\n", user_input[x]);
+		x++;
+	}
 	return (0);
 }
 
