@@ -13,7 +13,7 @@ void run_builtin(char **user_input, char *bin_path)
 }
 
 
-char	*trim_string(char *str)
+char	*trim_string(char *str, char c)
 {
 	char *answer;
 	int i;
@@ -24,7 +24,7 @@ char	*trim_string(char *str)
 	answer = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
 	while (str[i])
 	{
-		if (str[i] != '"')
+		if (str[i] != c)
 		{
 			answer[j] = str[i];
 			j++;
@@ -49,12 +49,14 @@ int		run_echo(char *input)
 		j = 0;
 		while (user_input[i][j])
 		{
-			if (user_input[i][j] == '\'')
+			if (user_input[i][j] == '"')
 			{
-				user_input[i] = trim_string(user_input[i]);
-				break ;
-			}
-			else if (user_input[i][j] == '$' && user_input[i][j + 1])
+				user_input[i] = trim_string(user_input[i], '"');
+				break;
+			} else if (user_input[i][j] == '\'') {
+				user_input[i] = trim_string(user_input[i], '\'');
+				break;
+			} else if (user_input[i][j] == '$' && user_input[i][j + 1])
 			{
 				check_env(user_input[i]);
 				return (0);
