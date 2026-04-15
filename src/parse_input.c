@@ -16,6 +16,8 @@ int	is_builtin(char *input) {
 		run_pwd();
 	else if (!ft_strcmp(str, "ls"))
 		run_ls(input);
+	else if (!ft_strcmp(str, "env"))
+		print_env();
 	else
 		return(0);
 	return(1);
@@ -38,6 +40,8 @@ int	is_other(char *input) {
 		run_setenv(input);
 	else if (!ft_strcmp(str, "unsetenv"))
 		run_unsetenv(input);
+	else if (!ft_strcmp(str, "exit"))
+		return (1);
 	else
 		return(0);
 	return(1);

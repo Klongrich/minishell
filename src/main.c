@@ -16,8 +16,6 @@ int		main(int ac, char **av, char **env) {
 			parse_input(line);
 			if (!ft_strcmp(line, "exit"))
 				break ;
-			if (!ft_strcmp(line , "env"))
-				print_env();
 		}
 	}
 	return (0);
