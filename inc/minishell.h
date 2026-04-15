@@ -14,7 +14,7 @@
 # include <dirent.h>
 # include <string.h>
 
-static char	**env;
+static  char	**env;
 
 void	run_cd(char *input);
 void	run_unsetenv(char *input);
@@ -24,8 +24,11 @@ void	init_env(char **input);
 int	run_echo(char *input);
 void	run_ls(char *input);
 void	run_pwd();
+void	check_env(char *str);
 int	parse_input(char *input);
 int	ft_env_len(char **str);
 void	run_setenv(char *input);
 int	check_name(char *user_input, int delete_or_update);
+char	*check_env_path(char *command);
+void	run_builtin(char **user_input, char *bin_path);
 #endif
