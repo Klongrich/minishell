@@ -3,6 +3,8 @@
 int	is_builtin(char *input) {
 	char str[ft_strlen(input)];
 	int i;
+	char *bin_path;
+	char **user_input;
 
 	i = 0;
 	while (input[i] != ' ' && input[i] != ';' && input[i]) {
@@ -10,17 +12,16 @@ int	is_builtin(char *input) {
 		i++;
 	}
 	str[i] = '\0';
-	if (!ft_strcmp(str, "echo"))
-		run_echo(input);
-	else if (!ft_strcmp(str, "pwd"))
-		run_pwd();
-	else if (!ft_strcmp(str, "ls"))
-		run_ls(input);
-	else if (!ft_strcmp(str, "env"))
-		print_env();
-	else
-		return(0);
-	return(1);
+
+	bin_path = check_env_path(str);	
+	if (bin_path) {
+		user_input = ft_strsplit(input, ' ');
+		run_builtin(user_input, bin_path);
+		free(bin_path);
+		return (1);
+	} else {
+		return (0);
+	}		
 }
 
 
@@ -40,6 +41,8 @@ int	is_other(char *input) {
 		run_setenv(input);
 	else if (!ft_strcmp(str, "unsetenv"))
 		run_unsetenv(input);
+	else if (!ft_strcmp(str, "echo"))
+		run_echo(input);
 	else if (!ft_strcmp(str, "exit"))
 		return (1);
 	else
@@ -49,9 +52,9 @@ int	is_other(char *input) {
 }
 
 int	parse_input(char *input) {
-	if (is_builtin(input))
+	if (is_other(input))
 		return(1);
-	else if (is_other(input))
+	else if (is_builtin(input))
 		return(1);
 	else
 		printf("command not found: %s\n", input);
