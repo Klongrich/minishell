@@ -41,7 +41,7 @@ void	run_cd(char *input)
 
 	parsed_input = ft_strsplit(input, ' ');
 	number_of_args = get_number_of_args(parsed_input);
-	if (number_of_args > 3) {
+	if (number_of_args > 2) {
 		printf("cd: too many arguments\n");
 	} else {
 		if (!parsed_input[1]) {
