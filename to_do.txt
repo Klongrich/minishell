@@ -1,4 +1,7 @@
-use access() to check for valid executable from paths in $PATH 
-fix cd when no values are passed to set pwd to $HOME
+- use access() to check for valid executable from paths in $PATH 
+
+update cd to allow environment variables
+- fix cd when no values are passed to set pwd to $HOME
+fix echo "$HOME" '$HOME'
 
 - fix issue printing error when exit or env is ran
