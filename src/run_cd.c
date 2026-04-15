@@ -33,10 +33,35 @@ int	get_number_of_args(char **parse_input) {
 	return (i);
 }
 
+
+char	*create_path(char *home_path, char *user_input) {
+	char *res;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	res = (char *)malloc(sizeof(char) * ft_strlen(home_path) + ft_strlen(user_input));
+	while (home_path[i]) {
+		res[j] = home_path[i];
+		j++;
+		i++;
+	}
+	i = 1;
+	while (user_input[i]) {
+		res[j] = user_input[i];
+		j++;
+		i++;
+	}
+	res[j] = '\0';
+	return (res);
+}
+
 void	run_cd(char *input)
 {
 	char **parsed_input;
 	char	**home_path;
+	char	*temp;
 	int number_of_args;
 
 	parsed_input = ft_strsplit(input, ' ');
@@ -49,7 +74,20 @@ void	run_cd(char *input)
 			check_path(home_path[1]);
 			chdir(home_path[1]);
 			update_pwd(0);
-		} else if (check_path(parsed_input[1]))
+			free(home_path);
+		} else if (parsed_input[1][0] == '~') {
+			home_path = ft_strsplit(get_env_home(), '=');
+			temp = create_path(home_path[1], parsed_input[1]);
+			if (check_path(temp)){
+				chdir(temp);
+				update_pwd(0);
+			} else {
+				printf("cd: no such file or directory: %s\n", temp);
+			}
+			free(home_path);
+			free(temp);
+		} 
+		else if (check_path(parsed_input[1]))
 		{
 			chdir(parsed_input[1]);
 			update_pwd(0);
