@@ -52,7 +52,9 @@ int	is_other(char *input) {
 }
 
 int	parse_input(char *input) {
-	if (is_other(input))
+
+	if (!input[0]) {	
+	} else if (is_other(input))
 		return(1);
 	else if (is_builtin(input))
 		return(1);
