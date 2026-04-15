@@ -49,7 +49,7 @@ int		run_echo(char *input)
 		j = 0;
 		while (user_input[i][j])
 		{
-			if (user_input[i][j] == '"')
+			if (user_input[i][j] == '\'')
 			{
 				user_input[i] = trim_string(user_input[i]);
 				break ;

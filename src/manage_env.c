@@ -146,6 +146,33 @@ int     check_for_path(char *str) {
          return (0);
 }
 
+
+int	is_home(char *str) {
+	if((str[0] == 'H' 
+	&& str[1] == 'O' 
+	&& str[2] == 'M' 
+	&& str[3] == 'E'
+	&& str[4] == '=')) {
+		return (1);
+	} else {
+		return (0);
+	}
+}
+
+char	*get_env_home() {
+	int i;
+
+	i = 0;
+
+	while (env[i]) {
+		if(is_home(env[i])) {
+			return(env[i]);
+		}
+		i++;
+	}
+	return(NULL);
+}
+
 char	*check_env_path(char *command) {
 	int i;
 	int j;

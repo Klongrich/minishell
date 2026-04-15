@@ -26,9 +26,15 @@ int		check_path(char *path)
 void	run_cd(char *input)
 {
 	char **parsed_input;
+	char	**home_path;
 	parsed_input = ft_strsplit(input, ' ');
 
-	if (check_path(parsed_input[1]))
+	if (!parsed_input[1]) {
+		home_path = ft_strsplit(get_env_home(), '=');
+		check_path(home_path[1]);
+		chdir(home_path[1]);
+		update_pwd(0);
+	} else if (check_path(parsed_input[1]))
 	{
 		chdir(parsed_input[1]);
 		update_pwd(0);
