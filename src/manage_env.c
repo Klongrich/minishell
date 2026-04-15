@@ -19,10 +19,8 @@ void	update_env(char *user_input, int spot)
 {
 	char	**parsed_data;
 	char	*tmp;
-//	char	*tmptwo;
 	char	*dup;
 
-//	tmptwo = env[spot];
 	parsed_data = ft_strsplit(user_input, ' ');
 	dup = ft_strjoin(parsed_data[1], "=");
 	tmp = ft_strjoin(dup, parsed_data[2]);
@@ -89,6 +87,23 @@ int		check_name(char *user_input, int delete_or_update)
 	return (1);
 }
 
+void    check_env(char *str) {
+	int     i;
+        char    **names;
+  
+	i = 0;
+        str++;
+        while (env[i]) {
+		names = ft_strsplit(env[i], '=');
+                if (!ft_strcmp(str, names[0]))
+                        ft_putstr(names[1]);
+                i++;
+                free (names);
+        }
+        ft_putchar('\n');
+}
+
+
 void	run_setenv(char *input)
 {
 	char	**new_env;
@@ -118,6 +133,52 @@ void	run_setenv(char *input)
 void	run_unsetenv(char *input)
 {
 	check_name(input, 0);
+}
+
+int     check_for_path(char *str) {
+          if ((str[0] == 'P' &&
+               str[1] == 'A' &&
+               str[2] == 'T' &&
+               str[3] == 'H' &&
+               str[4] == '=')) {
+               return (1);
+        }
+         return (0);
+}
+
+char	*check_env_path(char *command) {
+	int i;
+	int j;
+	char **temp;
+	char *temp2;
+	char *temp3;
+	char **temp4;
+
+	i = 0;
+	j = 0;
+	while (env[i]) {
+		if (check_for_path(env[i])) {
+			temp = ft_strsplit(env[i], ':');
+			temp4 = ft_strsplit(temp[0], '=');
+			temp[0] = temp4[1];
+			while (temp[j]) {
+				temp2 = ft_strjoin(temp[j], "/");
+				temp3 = ft_strjoin(temp2, command);
+				if(!access(temp3, X_OK)) {
+					free(temp[j]);
+					free(temp2);
+					return (temp3);
+				}
+				free(temp[j]);
+				free(temp2);
+				free(temp3);
+				j++;
+			}
+			break;		
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 void	print_env()
