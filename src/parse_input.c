@@ -1,13 +1,11 @@
 #include "../inc/minishell.h"
 
-int		is_builtin(char *input)
-{
+int	is_builtin(char *input) {
 	char str[ft_strlen(input)];
 	int i;
 
 	i = 0;
-	while (input[i] != ' ' && input[i] != ';' && input[i])
-	{
+	while (input[i] != ' ' && input[i] != ';' && input[i]) {
 		str[i] = input[i];
 		i++;
 	}
@@ -24,14 +22,12 @@ int		is_builtin(char *input)
 }
 
 
-int		is_other(char *input)
-{
+int	is_other(char *input) {
 	char str[ft_strlen(input)];
 	int i;
 
 	i = 0;
-	while (input[i] != ' ' && input[i] != ';' && input[i])
-	{
+	while (input[i] != ' ' && input[i] != ';' && input[i]) {
 		str[i] = input[i];
 		i++;
 	}
@@ -48,8 +44,7 @@ int		is_other(char *input)
 
 }
 
-int		parse_input(char *input)
-{
+int	parse_input(char *input) {
 	if (is_builtin(input))
 		return(1);
 	else if (is_other(input))

@@ -1,7 +1,6 @@
 #include "../inc/minishell.h"
 
-int		main(int ac, char **av, char **env)
-{
+int		main(int ac, char **av, char **env) {
 	char *line;
 
 	if (ac != 1)
