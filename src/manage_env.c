@@ -189,29 +189,34 @@ char	*get_env_home() {
 char	*check_env_path(char *command) {
 	int i;
 	int j;
-	char **temp;
-	char *temp2;
-	char *temp3;
-	char **temp4;
+	char **paths_parsed;
+	char *parsed_path_appened;
+	char *full_path_with_command;
+	char **cut_PATH_from_path;
 
 	i = 0;
 	j = 0;
 	while (env[i]) {
+		//Check if the ENV passed is equal to PATH= or not.
 		if (check_for_path(env[i])) {
-			temp = ft_strsplit(env[i], ':');
-			temp4 = ft_strsplit(temp[0], '=');
-			temp[0] = temp4[1];
-			while (temp[j]) {
-				temp2 = ft_strjoin(temp[j], "/");
-				temp3 = ft_strjoin(temp2, command);
-				if(!access(temp3, X_OK)) {
-					free(temp[j]);
-					free(temp2);
-					return (temp3);
+			paths_parsed = ft_strsplit(env[i], ':');
+			//When parseing with ":" our first value ends up at PATH=/usr/bin
+			//Since we strictly want the "/usr/bin/ we have to cut "PATH=" from the characters array.
+			cut_PATH_from_path = ft_strsplit(paths_parsed[0], '=');
+			paths_parsed[0] = cut_PATH_from_path[1];
+			//Looping through parsed paths from PATH=/usr/bin:/usr/sbin .....
+			while (paths_parsed[j]) {
+				parsed_path_appened = ft_strjoin(paths_parsed[j], "/");
+				full_path_with_command = ft_strjoin(parsed_path_appened, command);
+				//Check if the created path is a valid path for the excuteable or not.
+				if(!access(full_path_with_command, X_OK)) {
+					free(paths_parsed[j]);
+					free(parsed_path_appened);
+					return (full_path_with_command);
 				}
-				free(temp[j]);
-				free(temp2);
-				free(temp3);
+				free(paths_parsed[j]);
+				free(parsed_path_appened);
+				free(full_path_with_command);
 				j++;
 			}
 			break;		
