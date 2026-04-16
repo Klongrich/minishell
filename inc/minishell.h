@@ -32,4 +32,5 @@ int	check_name(char *user_input, int delete_or_update);
 char	*check_env_path(char *command);
 void	run_builtin(char **user_input, char *bin_path);
 char	*get_env_home();
+char    *get_env(char *str);
 #endif
