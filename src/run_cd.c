@@ -57,6 +57,15 @@ char	*create_path(char *home_path, char *user_input) {
 	return (res);
 }
 
+void	check_path_then_update(char *path) {
+	if (check_path(path)) {
+		chdir(path);
+		update_pwd(0);
+	} else {
+		printf("cd: no such file or directory: %s\n", path);
+	}
+}
+
 void	cd_to_HOME() {
 	char **home_path;
 	
@@ -87,33 +96,19 @@ void	run_cd(char *input)
 		} else if (parsed_input[1][0] == '~') {
 			home_path = ft_strsplit(get_env_home(), '=');
 			temp = create_path(home_path[1], parsed_input[1]);
-			if (check_path(temp)){
-				chdir(temp);
-				update_pwd(0);
-			} else {
-				printf("cd: no such file or directory: %s\n", temp);
-			}
+			check_path_then_update(temp);
 			free(home_path);
 			free(temp);
 		} else if (parsed_input[1][0] == '$' && parsed_input[1][1]) {
 			temp = get_env(parsed_input[1]);
 			if (!ft_strcmp(temp, "no_env_found")) {
 				cd_to_HOME();
-			} else {	
-				if(check_path(temp)) {
-					chdir(temp);
-					update_pwd(0);
-				} else {
-					printf("cd: such file or directorh: %s\n", temp);
-				}
+			} else {
+				check_path_then_update(temp);
 			}
 		} 
-		else if (check_path(parsed_input[1]))
-		{
-			chdir(parsed_input[1]);
-			update_pwd(0);
+		else  {
+			check_path_then_update(parsed_input[1]);
 		}
-		else
-			printf("cd: no such file or directory: %s\n", parsed_input[1]);
 	}
 }
