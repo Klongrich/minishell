@@ -12,6 +12,7 @@ int		update_pwd(int old_or_new)
 	else
 		answer = ft_strjoin("setenv OLDPWD ", cwd);
 	run_setenv(answer);
+	free (answer);
 	return (1);
 }
 
@@ -70,12 +71,7 @@ void	cd_to_HOME() {
 	char **home_path;
 	
 	home_path = ft_strsplit(get_env_home(), '=');
-	if(check_path(home_path[1])) {
-		chdir(home_path[1]);
-		update_pwd(0);
-	} else {
-		printf("cd: no such file or directory: %s\n", home_path[1]);
-	}
+	check_path_then_update(home_path[1]);
 	free(home_path);
 }
 

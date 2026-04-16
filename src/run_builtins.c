@@ -38,6 +38,8 @@ char	*trim_string(char *str, char c)
 int		run_echo(char *input)
 {
 	char **user_input;
+	char **home_path;
+	char *path_with_home;
 	int i;
 	int j;
 
@@ -49,7 +51,23 @@ int		run_echo(char *input)
 		j = 0;
 		while (user_input[i][j])
 		{
-			if (user_input[i][j] == '"')
+			if(user_input[i][j] == '~') {
+				if(user_input[i][j + 1] == '/') {
+					user_input[i]++;
+					home_path = ft_strsplit(get_env_home(), '=');
+					path_with_home = ft_strjoin(home_path[1], user_input[i]);
+					printf("%s\n", path_with_home);
+					free(home_path);
+					free(path_with_home);
+					return(0);
+				} else if (!user_input[i][j + 1]) {
+					home_path = ft_strsplit(get_env_home(), '=');
+					printf("%s\n", home_path[1]); 
+					free(home_path);
+					return (0);
+				}
+				break;
+			} else if (user_input[i][j] == '"')
 			{
 				if(user_input[i][j + 1] == '$' && user_input[i][j + 2]) {
 					user_input[i] = trim_string(user_input[i], '"');
