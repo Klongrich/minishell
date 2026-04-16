@@ -103,6 +103,26 @@ void    check_env(char *str) {
         ft_putchar('\n');
 }
 
+char	*get_env(char *str) {
+	int i;
+	char **names;
+	char *res;
+
+	i = 0;
+	str++;
+	res = "no_env_found";
+	while (env[i]) {
+		names = ft_strsplit(env[i], '=');
+		if (!ft_strcmp(str, names[0])) {
+			res = names[1];
+			break ;
+		}
+		i++;
+		free(names);
+	}
+	return (res);
+}
+
 
 void	run_setenv(char *input)
 {
