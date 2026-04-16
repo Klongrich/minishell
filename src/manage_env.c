@@ -148,7 +148,7 @@ void	run_unsetenv(char *input)
 	check_name(input, 0);
 }
 
-int     check_for_path(char *str) {
+int     is_PATH(char *str) {
           if ((str[0] == 'P' &&
                str[1] == 'A' &&
                str[2] == 'T' &&
@@ -186,40 +186,40 @@ char	*get_env_home() {
 	return(NULL);
 }
 
+char	*check_and_create_bin_path(char *PATH, char *command) {
+	int j;
+        char **paths_parsed;
+        char *parsed_path_appened;
+        char *full_path_with_command;
+        char **cut_PATH_from_path;
+
+	j = 0;
+	paths_parsed = ft_strsplit(PATH, ':');
+        cut_PATH_from_path = ft_strsplit(paths_parsed[0], '=');
+        paths_parsed[0] = cut_PATH_from_path[1];
+        while (paths_parsed[j]) {
+		parsed_path_appened = ft_strjoin(paths_parsed[j], "/");
+              	full_path_with_command = ft_strjoin(parsed_path_appened, command);
+		if(!access(full_path_with_command, X_OK)) {
+			free(paths_parsed[j]);
+                        free(parsed_path_appened);
+                         return (full_path_with_command);
+                }
+		free(paths_parsed[j]);
+		free(parsed_path_appened);
+		free(full_path_with_command);
+		j++;
+	}
+	return(NULL);
+}
+
 char	*check_env_path(char *command) {
 	int i;
-	int j;
-	char **paths_parsed;
-	char *parsed_path_appened;
-	char *full_path_with_command;
-	char **cut_PATH_from_path;
 
 	i = 0;
-	j = 0;
 	while (env[i]) {
-		//Check if the ENV passed is equal to PATH= or not.
-		if (check_for_path(env[i])) {
-			paths_parsed = ft_strsplit(env[i], ':');
-			//When parseing with ":" our first value ends up at PATH=/usr/bin
-			//Since we strictly want the "/usr/bin/ we have to cut "PATH=" from the characters array.
-			cut_PATH_from_path = ft_strsplit(paths_parsed[0], '=');
-			paths_parsed[0] = cut_PATH_from_path[1];
-			//Looping through parsed paths from PATH=/usr/bin:/usr/sbin .....
-			while (paths_parsed[j]) {
-				parsed_path_appened = ft_strjoin(paths_parsed[j], "/");
-				full_path_with_command = ft_strjoin(parsed_path_appened, command);
-				//Check if the created path is a valid path for the excuteable or not.
-				if(!access(full_path_with_command, X_OK)) {
-					free(paths_parsed[j]);
-					free(parsed_path_appened);
-					return (full_path_with_command);
-				}
-				free(paths_parsed[j]);
-				free(parsed_path_appened);
-				free(full_path_with_command);
-				j++;
-			}
-			break;		
+		if (is_PATH(env[i])) {
+			return (check_and_create_bin_path(env[i], command));
 		}
 		i++;
 	}
