@@ -33,28 +33,23 @@ void	delete_env(char *str)
 {
 	int i;
 	int j;
-	char	**new_env;
 	char	**env_name;
-	char	**tmp;
+	char	*temp;
 
 	i = 0;
 	j = 0;
-	tmp = env;
-	new_env = (char **)malloc(sizeof(new_env) * ft_env_len(env) + 1);
 	while (env[i])
 	{
+		temp = env[i];
 		env_name = ft_strsplit(env[i], '=');
 		if (ft_strcmp(str, env_name[0]))
 		{
-			new_env[j] = env[i];
+			env[j] = temp;
 			j++;
 		}
 		i++;
 	}
-	new_env[j] = NULL;
-	env = new_env;
-	free (tmp);
-	free (env_name);
+	env[j] = NULL;
 }
 
 
@@ -129,6 +124,7 @@ void	run_setenv(char *input)
 	char	**new_env;
 	char	**tmp;
 	char	*tmptwo;
+	char	*temp3;
 	int i;
 
 	i = 0;
@@ -136,15 +132,12 @@ void	run_setenv(char *input)
 	if (check_name(input, 1))
 	{
 		while (env[i])
-		{
-			new_env[i] = env[i];
 			i++;
-		}
 		tmp = ft_strsplit(input, ' ');
 		tmptwo = ft_strjoin(tmp[1], "=");
-		new_env[i++] = ft_strjoin(tmptwo, tmp[2]);
-		new_env[i] = NULL;
-		env = new_env;
+		temp3  = ft_strjoin(tmptwo, tmp[2]);
+		env[i] = temp3;
+		env[i + 1] = NULL;
 		free (tmp);
 		free (tmptwo);
 	}
