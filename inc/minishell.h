@@ -14,7 +14,7 @@
 # include <dirent.h>
 # include <string.h>
 
-static  char	**env;
+static char	**env;
 
 void	run_cd(char *input);
 void	run_unsetenv(char *input);
