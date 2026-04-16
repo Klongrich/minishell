@@ -57,6 +57,19 @@ char	*create_path(char *home_path, char *user_input) {
 	return (res);
 }
 
+void	cd_to_HOME() {
+	char **home_path;
+	
+	home_path = ft_strsplit(get_env_home(), '=');
+	if(check_path(home_path[1])) {
+		chdir(home_path[1]);
+		update_pwd(0);
+	} else {
+		printf("cd: no such file or directory: %s\n", home_path[1]);
+	}
+	free(home_path);
+}
+
 void	run_cd(char *input)
 {
 	char **parsed_input;
@@ -70,11 +83,7 @@ void	run_cd(char *input)
 		printf("cd: too many arguments\n");
 	} else {
 		if (!parsed_input[1]) {
-			home_path = ft_strsplit(get_env_home(), '=');
-			check_path(home_path[1]);
-			chdir(home_path[1]);
-			update_pwd(0);
-			free(home_path);
+			cd_to_HOME();
 		} else if (parsed_input[1][0] == '~') {
 			home_path = ft_strsplit(get_env_home(), '=');
 			temp = create_path(home_path[1], parsed_input[1]);
@@ -86,6 +95,18 @@ void	run_cd(char *input)
 			}
 			free(home_path);
 			free(temp);
+		} else if (parsed_input[1][0] == '$' && parsed_input[1][1]) {
+			temp = get_env(parsed_input[1]);
+			if (!ft_strcmp(temp, "no_env_found")) {
+				cd_to_HOME();
+			} else {	
+				if(check_path(temp)) {
+					chdir(temp);
+					update_pwd(0);
+				} else {
+					printf("cd: such file or directorh: %s\n", temp);
+				}
+			}
 		} 
 		else if (check_path(parsed_input[1]))
 		{
